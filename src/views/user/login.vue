@@ -1,5 +1,7 @@
 <template>
-<div class='login'>login</div>
+<div class='login'>
+  <van-nav-bar title="登录"></van-nav-bar>
+</div>
 </template>
 
 <script>

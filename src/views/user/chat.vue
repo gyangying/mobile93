@@ -1,5 +1,7 @@
 <template>
-<div class='chat'>chat</div>
+<div class='chat'>
+  <van-nav-bar fixed left-arrow @click-left="$router.back()"></van-nav-bar>
+</div>
 </template>
 
 <script>
