@@ -9,6 +9,8 @@ import 'vant/lib/index.css'
 import 'amfe-flexible/index.min.js'
 // 导入全局样式控制文件
 import '@/assets/css/global.less'
+// 导入vee-validate规则文件
+import '@/utils/validate.js'
 // 注册vant
 Vue.use(Vant)
 
