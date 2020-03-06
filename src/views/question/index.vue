@@ -1,5 +1,5 @@
 <template>
-<div class='question'>
+<div class='container'>
   <!-- van-skeleton：骨架屏组件
       title：第一行标题骨架
       :row="3" 后边还有3行骨架

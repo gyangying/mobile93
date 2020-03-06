@@ -1,5 +1,5 @@
 <template>
-<div class='video'>
+<div class='container'>
   <!-- avatar：骨架屏前边有圆圈 -->
   <van-skeleton title :row="3" />
   <van-skeleton title :row="3" />

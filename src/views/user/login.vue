@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="container">
     <!-- 表头信息显示 -->
     <van-nav-bar title="登录"></van-nav-bar>
     <!-- 表单部分
@@ -97,7 +97,8 @@ export default {
       // 按钮处于加载中
       this.isLogin = true
       try {
-        await userLoginApi(this.loginForm)
+        const res = await userLoginApi(this.loginForm)
+        this.$store.commit('updateUser', res)
       } catch (err) {
         // 回复按钮加载中状态
         this.isLogin = false
