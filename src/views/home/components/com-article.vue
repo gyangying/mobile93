@@ -20,6 +20,7 @@
               </van-grid-item>
             </van-grid>
             <p>
+              <van-icon name="close" style="float:right" @click="displayDialog()" />
               <span>作者：{{item.aut_name}}</span>
               <span>评论：{{item.comm_count}}</span>
               <span>时间：{{item.pubdate | formatTime}}</span>
@@ -28,13 +29,20 @@
         </van-cell>
       </van-list>
     </van-pull-refresh>
+    <more-action v-model="showDialog"></more-action>
   </div>
 </template>
 
 <script>
+// 导入子组件
+import MoreAction from './com-moreaction.vue'
 import { articleListApi } from '@/api/article.js'
 export default {
   name: 'com-article',
+  // 注册组件
+  components: {
+    MoreAction
+  },
   // props: ['channelID'],
   props: {
     // 当前选中的频道id信息
@@ -45,6 +53,7 @@ export default {
   },
   data () {
     return {
+      showDialog: false, // 控制子组件弹出框是否显示
       // 文章列表
       articleList: [],
       ts: Date.now(), // 时间戳参数，用于分页获取文章信息
@@ -60,6 +69,10 @@ export default {
     this.getArticleList()
   },
   methods: {
+    // 展示更多操作的弹层
+    displayDialog () {
+      this.showDialog = true
+    },
     // 获取文章列表
     async getArticleList () {
       const res = await articleListApi({
