@@ -31,8 +31,9 @@ const instance = axios.create({
 instance.interceptors.request.use(function (config) {
   // 判断token存在再做配置(vuex判断)
   // store.data.data 判断是否有用户信息
+  // 注意Bearer后面有空格
   if (store.state.user.token) {
-    config.headers.Authorization = 'Bearer' + store.state.user.token
+    config.headers.Authorization = 'Bearer ' + store.state.user.token
   }
   return config
 }, function (error) {

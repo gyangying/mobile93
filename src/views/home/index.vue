@@ -8,23 +8,36 @@
         内容区域：标签对应内容
     -->
     <van-tabs v-model="activeChannelIndex">
+      <div slot="nav-right" class="channel-more" @click="showPopup=true">
+        <van-icon name="wap-nav" />
+      </div>
       <van-tab :title="item.name" v-for="item in channelList" :key="item.id">
         <com-article :channelID="item.id"></com-article>
       </van-tab>
+      <!-- 应用频道子组件弹出层 -->
+      <com-channel
+        v-model="showPopup"
+        :channelList="channelList"
+        :activeChannelIndex.sync="activeChannelIndex"
+        ></com-channel>
     </van-tabs>
   </div>
 </template>
 
 <script>
+import ComChannel from './components/com-channel.vue'
 import { channelListApi } from '@/api/channel.js'
 import ComArticle from './components/com-article.vue'
 export default {
   name: 'home',
   components: {
-    ComArticle
+    ComArticle,
+    ComChannel
   },
   data () {
     return {
+      // 控制子组件弹出是否显示
+      showPopup: false,
       // 用户频道列表
       channelList: [],
       // 设置频道默认激活项目
@@ -91,5 +104,18 @@ export default {
   /deep/ .van-tabs__line {
     background-color: #1989fa;
   }
+}
+.channel-more {
+  position: fixed;
+  right: 0;
+  background-color: white;
+  line-height: 88px;
+  height: 88px;
+  width: 90px;
+  text-align: center;
+  font-size: 40px;
+}
+/deep/ .van-tabs_wrap {
+  width: 90%;
 }
 </style>

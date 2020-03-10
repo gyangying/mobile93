@@ -1,4 +1,17 @@
 import request from '@/utils/request.js'
+// 举报文章
+export function articleReportApi ({ articleID, type, remark = '' }) {
+  return request({
+    url: '/app/v1_0/article/reports',
+    method: 'post',
+    data: {
+      target: articleID,
+      // 对象成员简易赋值，完整写法：type:type
+      type,
+      remark // 其他问题 的附加说明
+    }
+  })
+}
 // 对文章不喜欢
 export function articleDislikeApi (articleID) {
   return request({
