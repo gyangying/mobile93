@@ -15,7 +15,11 @@
               用法非常灵活、复杂
               title：单元格标题内容
         -->
-        <van-cell v-for="item in articleList" :key="item.art_id.toString()" :title="item.title">
+        <van-cell
+        v-for="item in articleList"
+        :key="item.art_id.toString()"
+        :title="item.title"
+        @click="$router.push({name:'article',params:{aid:item.art_id.toString()}})">
           <template slot="label">
             <van-grid
               :column-num="item.cover.type"
@@ -28,7 +32,7 @@
               </van-grid-item>
             </van-grid>
             <p>
-              <van-icon name="close" style="float:right" @click="displayDialog(item.art_id.toString())" />
+              <van-icon name="close" style="float:right" @click.stop="displayDialog(item.art_id.toString())" />
               <span>作者：{{item.aut_name}}</span>
               <span>评论：{{item.comm_count}}</span>
               <span>时间：{{item.pubdate | formatTime}}</span>

@@ -42,7 +42,8 @@ const routes = [
     component: () => import('@/views/user/login.vue')
   },
   {
-    path: '/article',
+    path: '/article/:aid',
+    name: 'article',
     component: () => import('@/views/article/index.vue')
   },
   {
@@ -50,7 +51,9 @@ const routes = [
     component: () => import('@/views/search/index.vue')
   },
   {
-    path: '/search/result',
+    // 当前路由通过 :q 设置传入参数
+    path: '/search/result/:q',
+    name: 'result',
     component: () => import('@/views/search/result.vue')
   }
 ]

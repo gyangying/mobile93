@@ -1,4 +1,11 @@
 import request from '@/utils/request.js'
+// 获取文章详情
+export function articleDetailApi (articleID) {
+  return request({
+    url: '/app/v1_0/articles/' + articleID,
+    method: 'get'
+  })
+}
 // 举报文章
 export function articleReportApi ({ articleID, type, remark = '' }) {
   return request({
