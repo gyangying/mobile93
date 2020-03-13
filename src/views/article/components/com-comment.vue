@@ -105,8 +105,11 @@ export default {
     // 添加评论或者回复
     async add () {
       if (!this.contentCorR) {
+        this.$toast.fail('请输入内容')
         return false
       }
+      this.submitting = true
+      await this.$sleep(800)
       if (this.showReply) {
         const res = await addCorRApi({
           target: this.commentID,
@@ -128,6 +131,7 @@ export default {
         this.commentList.unshift(res.new_obj)
       }
       this.contentCorR = ''
+      this.submitting = false
     },
     // 开启回复弹出层
     openReply (comID) {
