@@ -64,18 +64,18 @@
     </van-popup>
     <!-- 添加评论或者回复 -->
     <div class="reply-container van-hairline--top">
-      <van-field v-model="contentCorR" placeholder="写评论或回复...">
+      <van-field v-model.trim="contentCorR" placeholder="写评论或回复...">
         <!-- van-loading设置加载图标，与提交进行配置使用slot="button"命名插槽，表明要给van-field的指定位置填充内容(右侧)
         -->
         <van-loading v-if="submitting" slot="button" type="spinner" size="16px"></van-loading>
-        <span class="submit" v-else slot="button">提交</span>
+        <span class="submit" v-else slot="button" @click="add">提交</span>
       </van-field>
     </div>
   </div>
 </template>
 
 <script>
-import { replyListApi } from '@/api/reply.js'
+import { replyListApi, addCorRApi } from '@/api/reply.js'
 import { commentListApi } from '@/api/comment.js'
 export default {
   name: 'com-comment',
@@ -102,6 +102,33 @@ export default {
     }
   },
   methods: {
+    // 添加评论或者回复
+    async add () {
+      if (!this.contentCorR) {
+        return false
+      }
+      if (this.showReply) {
+        const res = await addCorRApi({
+          target: this.commentID,
+          content: this.contentCorR,
+          artID: this.$route.params.aid
+        })
+        this.replyList.unshift(res.new_obj)
+        // 获得当前评论的下标
+        const index = this.commentList.findIndex(item => {
+          return item.com_id.toString() === this.commentID
+        })
+        this.commentList[index].reply_count++
+      } else {
+        const res = await addCorRApi({
+          target: this.$route.params.aid,
+          content: this.contentCorR
+        })
+        console.log(res)
+        this.commentList.unshift(res.new_obj)
+      }
+      this.contentCorR = ''
+    },
     // 开启回复弹出层
     openReply (comID) {
       this.commentID = comID
