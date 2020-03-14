@@ -2,9 +2,9 @@
   <div class="container">
     <div class="user-profile">
       <div class="info">
-        <van-image round src="https://img.yzcdn.cn/vant/cat.jpeg" />
+        <van-image round src="userInfo.photo" />
         <h3 class="name">
-          我是华仔
+          {{userInfo.name}}
           <br />
           <van-tag size="mini">申请认证</van-tag>
         </h3>
@@ -17,19 +17,19 @@
       -->
       <van-row>
         <van-col span="6">
-          <p>0</p>
+          <p>{{userInfo.art_count}}</p>
           <p>动态</p>
         </van-col>
         <van-col span="6">
-          <p>0</p>
+          <p>{{userInfo.follow_count}}</p>
           <p>关注</p>
         </van-col>
         <van-col span="6">
-          <p>0</p>
+          <p>{{userInfo.fans_count}}</p>
           <p>粉丝</p>
         </van-col>
         <van-col span="6">
-          <p>0</p>
+          <p>{{userInfo.like_count}}</p>
           <p>被赞</p>
         </van-col>
       </van-row>
@@ -50,14 +50,39 @@
       <van-cell icon="edit" title="编辑资料" to="/user/profile" is-link />
       <van-cell icon="chat-o" title="小智同学" to="/user/chat" is-link />
       <van-cell icon="setting-o" title="系统设置" is-link />
-      <van-cell icon="warning-o" title="退出登录" to="/login" is-link />
+      <van-cell icon="warning-o" title="退出登录" is-link @click="logout()" />
     </van-cell-group>
   </div>
 </template>
 
 <script>
+import { userInfoApi } from '@/api/user.js'
 export default {
-  name: 'user-index'
+  name: 'user-index',
+  data () {
+    return {
+      userInfo: {}
+    }
+  },
+  created () {
+    this.getUserInfo()
+  },
+  methods: {
+    logout () {
+      this.$dialog.confirm({
+        message: '确认要退出系统吗?'
+      }).then(() => {
+        this.$store.commit('clearUser')
+        this.$router.push('/login')
+      }).catch(() => {
+        // 单击取消按钮
+      })
+    },
+    async getUserInfo () {
+      this.userInfo = await userInfoApi()
+      console.log(this.userInfo)
+    }
+  }
 }
 </script>
 

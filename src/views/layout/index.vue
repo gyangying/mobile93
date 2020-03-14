@@ -1,7 +1,8 @@
 <template>
   <div class="container">
-    <van-nav-bar fixed title="黑马头条" right-text="搜索" @click-right="$router.push('/search')" />
-    <div class="my-wrapper">
+    <van-nav-bar fixed title="黑马头条" right-text="搜索" @click-right="$router.push('/search')" v-if="$route.path!=='/user'" />
+    <!-- <div class="my-wrapper" :style="{'padding-top':$route.path==='/user'?0:'46px'}"> -->
+    <div class="my-wrapper" :class="{noTop:$route.path==='/user'}">
       <!-- 路由占位符，用于显示home、question、video、user组件 -->
       <router-view></router-view>
     </div>
