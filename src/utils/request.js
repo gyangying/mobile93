@@ -50,12 +50,36 @@ instance.interceptors.response.use(function (response) {
   } catch (err) {
     return response.data
   }
-}, function (error) {
+}, async function (error) {
   if (error.response.status === 401) {
-    // token不ok(token在服务器端已经失效了，2个小时时效)
-    // 强制用户重新登录系统，以刷新服务器端的token时效
-    router.push('/login')
-    return new Promise(function () {})
+    // refresh_token营救token
+    if (!store.state.user.refresh_token) {
+      router.push('/login')
+      return new Promise(function () {})
+    }
+    try {
+      const result = await axios({
+        url: 'http://ttapi.reserach.itcast.cn/app/v1_0/authorizations',
+        method: 'put',
+        headers: {
+          Authorization: 'Bearer ' + store.state.user.refresh_token
+        }
+      })
+      console.log(result)
+      store.commit('updateUser', {
+        token: result.data.data.token,
+        refresh_token: store.state.user.refresh_token
+      })
+      // error.config有失败请求的相关信息（url，method，data...）
+      return instance(error.config)
+    } catch (err) {
+      // 清除无效的refresh_token
+      store.commit('clearUser')
+      // token不ok(token在服务器端已经失效了，2个小时时效)
+      // 强制用户重新登录系统，以刷新服务器端的token时效
+      router.push('/login')
+      return new Promise(function () {})
+    }
   }
   return Promise.reject(error)
 })

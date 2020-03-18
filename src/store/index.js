@@ -20,6 +20,10 @@ export default new Vuex.Store({
     clearUser (state) {
       state.user = {}
       localStorage.removeItem(USER_KEY)
+    },
+    clearToken (state) {
+      // delete可以删除对象的成员属性
+      delete state.user.token
     }
   },
   actions: {

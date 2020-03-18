@@ -1,10 +1,18 @@
 <template>
   <div class="container">
-    <van-nav-bar fixed title="黑马头条" right-text="搜索" @click-right="$router.push('/search')" v-if="$route.path!=='/user'" />
+    <van-nav-bar
+      fixed
+      title="黑马头条"
+      right-text="搜索"
+      @click-right="$router.push('/search')"
+      v-if="$route.path!=='/user'"
+    />
     <!-- <div class="my-wrapper" :style="{'padding-top':$route.path==='/user'?0:'46px'}"> -->
     <div class="my-wrapper" :class="{noTop:$route.path==='/user'}">
       <!-- 路由占位符，用于显示home、question、video、user组件 -->
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </div>
     <!-- 公共脚步
       van-tabbar:标签栏组件
@@ -17,9 +25,10 @@
       <van-tabbar-item to="/home" icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item to="question" icon="chat-o">问答</van-tabbar-item>
       <van-tabbar-item to="/video" icon="video-o">视频</van-tabbar-item>
-      <van-tabbar-item :to="$store.state.user.token?'/user':'/login'" icon="user-o">
-      {{$store.state.user.token?'我的':'未登录'}}
-      </van-tabbar-item>
+      <van-tabbar-item
+        :to="$store.state.user.token?'/user':'/login'"
+        icon="user-o"
+      >{{$store.state.user.token?'我的':'未登录'}}</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>

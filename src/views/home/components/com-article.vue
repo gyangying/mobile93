@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll-wrapper">
+  <div class="scroll-wrapper" ref="myarticle" @scroll="remember()">
     <!-- v-model="isLoading" // 下拉动画控制
     @refresh="onRefresh" // 下拉事件声明
     :success-text="downSuccessText" // 下拉完毕提示信息
@@ -69,6 +69,7 @@ export default {
   },
   data () {
     return {
+      nowTop: 0, // 滚动条卷起的高度
       downSuccessText: '', // 下拉动作完成的文字提示
       nowArticleID: '',
       showDialog: false, // 控制子组件弹出框是否显示
@@ -86,7 +87,18 @@ export default {
   created () {
     this.getArticleList()
   },
+  activated () {
+    // 设置滚动条缓存
+    //
+    if (this.nowTop) {
+      this.$refs.myarticle.scrollTop = this.nowTop
+    }
+  },
   methods: {
+    // 或得滚动条卷起的高度
+    remember () {
+      this.nowTop = this.$refs.myarticle.scrollTop
+    },
     // 文章不感兴趣的处理，清除目标文章
     handleDislikeSuccess () {
       const index = this.articleList.findIndex((item) => {
@@ -170,6 +182,6 @@ export default {
   height: 100%;
   // 瀑布流区域如果垂直方向内容过多，要呈现滚动条
   // 是瀑布实现的关键要素
-  // overflow-y: auto;
+  overflow-y: auto;
 }
 </style>
